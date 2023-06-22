@@ -1,0 +1,181 @@
+import random
+datos_vehiculo = []
+
+#opcion 1(Grabar)
+def grabar():
+  vehiculo = {}
+
+  while True:
+    vehiculo["Tipo"] = input("Ingrese el tipo de vehiculo: ")
+    if vehiculo["Tipo"].isalpha():
+      break
+    else:
+      print("Ingrese el tipo de vehiculo correctamente, recuerde utilizar solo letras")
+
+
+  while True:
+    vehiculo["patente"] = input("Ingrese la patente del vehiculo: ")
+    if len(vehiculo["patente"]) == 6 and vehiculo["patente"][:4].isalpha() and vehiculo["patente"][4:].isdigit():
+      break
+    else:
+      print("La patente deber ser ingresada como en este ejemplo BBCC12.")
+
+  while True:
+    vehiculo["marca"] = input("Ingrese la marca del vehiculo: ")
+    if 2 <= len(vehiculo["marca"]) <= 15 and vehiculo["marca"].isalpha():
+      break
+    else:
+      print("La marca ingresada debe contener de 2 a 15 caracteres y solo letras.")
+
+  while True:
+    try:
+      vehiculo["precio"] = int(input("Ingrese el precio del vehiculo: "))
+
+      if vehiculo["precio"] >= 5000001:
+        break
+      else:
+        print("El precio ingresado debe ser mayor a $5000000.")
+    except ValueError:
+      print("No ingreso el precio correctamente")
+
+
+  vehiculo["fecha_registro"] = input("Ingrese la fecha de registro del vehiculo: ")
+
+  while True:
+    vehiculo["nombre_dueño"] = input("Ingrese el nombre del dueño: ")
+    if not vehiculo["nombre_dueño"].isalpha():
+      print("Solo deben ser letras...")
+      vehiculo["nombre_dueño"] = input("Ingrese el nombre del dueño nuevamente: ")
+    else:
+      break
+
+
+
+  multa = input("¿El vehiculo tiene alguna multa? (s/n) : ")
+  newmulta = multa.lower()
+  if newmulta == "s":
+    vehiculo["monto_multas"] = int(input("Ingrese el monto de la multa del vehiculo: "))
+    vehiculo["fecha_multas"] = input("Ingrese la fecha de la multa: ")
+
+  elif newmulta == "n":
+    vehiculo["monto_multas"] = 0
+    vehiculo["fecha_multas"] = "El vehiculo no tiene multas"
+    pass
+
+  else:
+    print("Por favor, ingrese alguna de las opciones propuestas")
+
+  datos_vehiculo.append(vehiculo)
+
+
+#opcion 2(Buscar)
+def buscar():
+  while True:
+    buscarpatente = input("Ingrese la patente del vehiculo que desea buscar: ")
+    encontrado = False
+
+    for vehiculo in datos_vehiculo:
+      if vehiculo["patente"] == buscarpatente:
+        print(f'''
+        {"-"*10} Informacion {"-"*10}
+
+        Tipo: {vehiculo["Tipo"]}
+        patente: {vehiculo["patente"]}
+        marca: {vehiculo["marca"]}
+        precio: {vehiculo["precio"]}
+        fecha de registro: {vehiculo["fecha_registro"]}
+        nombre del dueño: {vehiculo["nombre_dueño"]}
+        ''')
+        encontrado = True
+        break
+
+    if encontrado:
+      break
+
+    print("No se encontro el vehiculo con esa patente")
+    opc1 = input("¿Desea buscar nuevamente? (s/n): ")
+    newopc1 = opc1.lower()
+
+    if newopc1 == "n":
+      input("Pulse Enter para salir al menu principal.....")
+      break
+    elif newopc1 != "s":
+      print("Por favor, ingrese una opcion valida.")
+
+
+#opcion 3(Imprimir)
+def imprimir():
+  for vehiculo in datos_vehiculo:
+    emision = random.randint(1500, 3500)
+    anotaciones = random.randint(1500, 3500)
+    multas = random.randint(1500, 3500)
+
+    print(f'''
+    {"-"*10} Certificado de Emisión de Contaminantes {"-"*10}
+    Nombre del certificado: Emisión de Contaminantes
+    Patente del vehículo: {vehiculo["patente"]}
+    Datos del dueño: {vehiculo["nombre_dueño"]}
+    Monto del certificado: ${emision}
+
+    {"-"*10} Certificado de Anotaciones Vigentes {"-"*10}
+    Nombre del certificado: Anotaciones Vigentes
+    Patente del vehículo: {vehiculo["patente"]}
+    Datos del dueño: {vehiculo["nombre_dueño"]}
+    Monto del certificado: ${anotaciones}
+
+    {"-"*10} Certificado de Multas {"-"*10}
+    Nombre del certificado: Multas
+    Patente del vehículo: {vehiculo["patente"]}
+    Datos del dueño: {vehiculo["nombre_dueño"]}
+    Monto del certificado: ${multas}
+    ''')
+
+    input("Pulse Enter para continuar.....")
+
+#opcion 4(Salir)
+def salir():
+  print("Gracias por utilizar nuestros servicios!!!")
+  print("Adios")
+
+
+#Mostrar Menu principal
+menu_principal = f'''
+{"-"*20} Menu Principal {"-"*20}
+1.Grabar
+2.Buscar
+3.Imprimir certificados
+4.Salir
+'''
+
+
+#Programa principal terminar
+def main():
+  print("Bienvenido a Auto Seguro!!!")
+  input("Pulse Enter para continuar.....")
+  while True:
+    print(menu_principal)
+    opc = input("¿Que opcion desea elegir?: ")
+
+    if opc == "1":
+      grabar()
+      print("Los datos se guardaron correctamente!!!")
+      input("Pulse Enter para continuar.....")
+
+    elif opc == "2":
+      buscar()
+
+
+    elif opc == "3":
+      imprimir()
+
+
+    elif opc == "4":
+      salir()
+      break
+
+    else:
+      print("Por favor, ingrese una opcion valida.")
+
+
+#Mostrar programa listo
+main()
